@@ -10,7 +10,7 @@ class Route
 		// контроллер и действия по умолчанию
 		$controller_name = 'Main';
 		$action_name = 'index';
-
+		
 		$routes = explode('/', $_SERVER['REQUEST_URI']);
 
 		// плучаем имя контроллера
@@ -55,7 +55,17 @@ class Route
 		}
 
 		// создаем контоллер
-		$controller = new $controller_name;
+		$controller = null;
+		if (class_exists($controller_name)) 
+		{
+			// создаем контроллер
+			$controller = new $controller_name;
+		} 
+		else 
+		{
+			Route::ErrorPage404();
+		}
+
 		$action = $action_name;
 
 		if (method_exists($controller, $action))
@@ -69,13 +79,13 @@ class Route
 			Route::ErrorPage404();
 		}
 
-		function ErrorPage404()
-		{
-			$host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
-			header('HTTP/1.1 404 Not Found');
-				header("Status: 404 Not Found");
-				header("Locatin:".  $host . '404');
-		}
+	}
 
+	function ErrorPage404()
+	{
+		$host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+		header('HTTP/1.1 404 Not Found');
+		header("Status: 404 Not Found");
+		header("Location:".  $host . '404');
 	}
 }

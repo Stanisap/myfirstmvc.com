@@ -14,4 +14,5 @@
 			}
 		?>
 	</table>
+	<p> &copy; Stanisap - Don't copyrite this text! </p>
 </p>
